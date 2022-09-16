@@ -7,6 +7,7 @@ interface IUser {
   id: number;
   name: string;
   email: string;
+  picture: string;
 }
 
 const users: Ref<IUser[]> = ref([]);

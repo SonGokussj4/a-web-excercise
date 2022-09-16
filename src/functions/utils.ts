@@ -3,9 +3,10 @@ interface IUser {
     id: number;
     name: string;
     email: string;
+    picture: string;
 }
 
-export async function getUsers() {
+export async function getUsers_OLD_URL() {
     let users: IUser[] = [];
 
     const usersFromLS = localStorage.getItem("users");
@@ -31,6 +32,52 @@ export async function getUsers() {
         localStorage.setItem("users", JSON.stringify({
             "lastUpdated": new Date().toString(),
             "data": response
+        }));
+        console.log("[ DEBUG ] Users saved to LocalStorage");
+
+    }).catch((error) => {
+        console.log('[ ERROR ] Error fetching users: \n', error);
+    });
+
+    return users;
+}
+
+export async function getUsers() {
+    let users: IUser[] = [];
+
+    const usersFromLS = localStorage.getItem("users");
+
+    if (usersFromLS) {
+        const lastUpdated = new Date(JSON.parse(usersFromLS).lastUpdated);
+        const diff = new Date().getTime() - lastUpdated.getTime();
+        const seconds = Math.round(diff / 1000);
+        if (seconds < import.meta.env.VITE_MAX_USERS_CACHE_AGE_SECONDS) {
+            console.log(`Using cached users (less than ${seconds} seconds old)`);
+            users = JSON.parse(usersFromLS).data;
+            return users;
+        }
+    }
+
+    console.log("[ DEBUG ] Fetching users from API");
+    const res = await fetch(import.meta.env.VITE_USERS_URL, {
+        headers: { 'Content-type': 'application/json' },
+    }).then(res => res.json()).then((response) => {
+        console.log("[ DEBUG ] USERS", users);
+        // Save to LocalStorage for now (no cookies (too much data), no database)
+        console.log("[ DEBUG ] Saving users to LocalStorage");
+        // change the data structure to match the old one (default task URL - jsonplaceholder.typicode.com/users)
+        const usersToSave = response.results.map((user: any, index: number) => {
+            return {
+                id: index,
+                name: user.name.first + " " + user.name.last,
+                email: user.email,
+                picture: user.picture.large
+            }
+        });
+        users = usersToSave;
+        localStorage.setItem("users", JSON.stringify({
+            "lastUpdated": new Date().toString(),
+            "data": usersToSave
         }));
         console.log("[ DEBUG ] Users saved to LocalStorage");
 

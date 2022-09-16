@@ -6,6 +6,7 @@ interface IUser {
     id: number;
     name: string;
     email: string;
+    picture: string;
 }
 const props = defineProps<{
     users: Array<IUser>;
