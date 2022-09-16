@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
-import usersTable from "../components/UsersTable.vue";
-import { getUsers } from "../functions/utils.js";
+import scoresTable from "../components/ScoresTable.vue";
 
 // const users = ref([]);
 
@@ -16,7 +15,7 @@ import { getUsers } from "../functions/utils.js";
     </button> -->
 
     <!-- <div v-if="users.length != 0">
-      <usersTable :users="users" />
+      <scoresTable :scores="scores" />
     </div> -->
   </div>
 </template>

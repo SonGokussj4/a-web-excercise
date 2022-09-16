@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
 import { getUsers } from "../functions/utils.js";
-import usersAvatars from "./UsersAvatars.vue";
+import gameBoard from "./GameBoard.vue";
 
 interface IUser {
   id: number;
@@ -26,7 +26,7 @@ async function startGame() {
   </div>
 
   <div v-if="users.length != 0">
-    <usersAvatars :users="users" />
+    <gameBoard :users="users" />
   </div>
 
 
