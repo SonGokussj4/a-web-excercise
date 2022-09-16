@@ -11,8 +11,8 @@ import HelloWorld from "./components/HelloWorld.vue";
       <HelloWorld msg="A-Web-Excercise" />
 
       <nav>
-        <RouterLink to="/">Game</RouterLink>
-        <RouterLink to="/scores">Scores</RouterLink>
+        <RouterLink to="/">Game 🎲</RouterLink>
+        <RouterLink to="/scores">Scoreboard 🥇</RouterLink>
       </nav>
     </div>
   </header>

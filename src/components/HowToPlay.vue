@@ -15,7 +15,7 @@ import CommunityIcon from "./icons/IconCommunity.vue";
 
     <p>Press a button to start the game. The game will get 6 random people from the internet.</p>
     <p>Then you choose a person on the left and person on the right. And you play 🤘🧻✂.</p>
-    <p>Leaderboard table can be viewed in the <RouterLink to="/scores">Scores</RouterLink> page</p>
+    <p>Leaderboard table can be viewed in the <RouterLink to="/scores">Scoreboard</RouterLink> page</p>
 
     <br />
   </WelcomeItem>
