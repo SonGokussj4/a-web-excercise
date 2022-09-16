@@ -1,22 +1,28 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
 import scoresTable from "../components/ScoresTable.vue";
+import { getUsers, getScores } from "../functions/utils.js";
 
-// const users = ref([]);
+interface IScore {
+  name: string;
+  wins: number;
+}
+
+const scores: Ref<Array<IScore>> = ref([]);
+scores.value = getScores();
 
 </script>
 
 <template>
   <div class="scoreboard">
-    <h1>This is a scoreboard page</h1>
 
-    <!-- <button class="btn btn-primary" @click="getUsers">
-      Get Users
-    </button> -->
+    <h1 v-if="scores.length == 0" style="text-align: center; padding-top: 30px;">
+      No scores yet, play a game!
+    </h1>
 
-    <!-- <div v-if="users.length != 0">
+    <div v-if="scores.length != 0">
       <scoresTable :scores="scores" />
-    </div> -->
+    </div>
   </div>
 </template>
 

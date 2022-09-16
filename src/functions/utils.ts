@@ -8,13 +8,15 @@ interface IUser {
 export async function getUsers() {
     let users: IUser[] = [];
 
-    if (localStorage.getItem("users")) {
-        const lastUpdated = new Date(JSON.parse(localStorage.getItem("users")).lastUpdated);
+    const usersFromLS = localStorage.getItem("users");
+
+    if (usersFromLS) {
+        const lastUpdated = new Date(JSON.parse(usersFromLS).lastUpdated);
         const diff = new Date().getTime() - lastUpdated.getTime();
         const seconds = Math.round(diff / 1000);
         if (seconds < import.meta.env.VITE_MAX_USERS_CACHE_AGE_SECONDS) {
             console.log(`Using cached users (less than ${seconds} seconds old)`);
-            users = JSON.parse(localStorage.getItem("users")).data;
+            users = JSON.parse(usersFromLS).data;
             return users;
         }
     }
@@ -39,9 +41,28 @@ export async function getUsers() {
     return users;
 }
 
+function getScores() {
+    interface IScore {
+        name: string;
+        wins: number;
+    }
+    let scores: Array<IScore> = [];
+
+    console.log("[ DEBUG ] Fetching scores from LS");
+    const scoresFromLS = localStorage.getItem("scores");
+    if (scoresFromLS) {
+        scores = JSON.parse(scoresFromLS);
+        return scores;
+    }
+
+    console.log("[ DEBUG ] No scores yet... Play a game!");
+    return scores;
+}
+
+
 // Fisher-Yates shuffle (https://www.webmound.com/shuffle-javascript-array/)
-const shuffleArrayES6 = (array) => {
-    array.reverse().forEach((item, index) => {
+const shuffleArrayES6 = (array: any) => {
+    array.reverse().forEach((item: any, index: number) => {
         const j = Math.floor(Math.random() * (index + 1));
         [array[index], array[j]] = [array[j], array[index]];
     });
@@ -49,7 +70,7 @@ const shuffleArrayES6 = (array) => {
     return array;
 };
 
-const shuffleObjects = (array) => {
+const shuffleObjects = (array: any) => {
     const newArray = [...array];
 
     newArray.reverse().forEach((item, index) => {
@@ -65,4 +86,4 @@ const shuffle = (array: any) => {
 };
 
 export default getUsers;
-export { shuffle, shuffleArrayES6, shuffleObjects };
+export { shuffle, shuffleArrayES6, shuffleObjects, getScores };
