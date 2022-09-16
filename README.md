@@ -14,7 +14,7 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 * Run `npm run build`
 * Open `http://localhost:3000` in your browser
 
-## Excersise Assignment
+## Excercise Assignment
 
 > "Cilem je vytvorit jednoduchou aplikaci **Kamen, nuzky, papir**
 >
