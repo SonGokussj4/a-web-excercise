@@ -39,5 +39,30 @@ export async function getUsers() {
     return users;
 }
 
+// Fisher-Yates shuffle (https://www.webmound.com/shuffle-javascript-array/)
+const shuffleArrayES6 = (array) => {
+    array.reverse().forEach((item, index) => {
+        const j = Math.floor(Math.random() * (index + 1));
+        [array[index], array[j]] = [array[j], array[index]];
+    });
+
+    return array;
+};
+
+const shuffleObjects = (array) => {
+    const newArray = [...array];
+
+    newArray.reverse().forEach((item, index) => {
+        const j = Math.floor(Math.random() * (index + 1));
+        [newArray[index], newArray[j]] = [newArray[j], newArray[index]];
+    });
+
+    return newArray;
+};
+
+const shuffle = (array: any) => {
+    return array.sort(() => 0.5 - Math.random());
+};
 
 export default getUsers;
+export { shuffle, shuffleArrayES6, shuffleObjects };

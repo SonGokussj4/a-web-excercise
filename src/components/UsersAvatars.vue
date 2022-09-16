@@ -10,9 +10,10 @@ const props = defineProps<{
     users: Array<IUser>;
 }>();
 
-const leftUsers = props.users.splice(0, props.users.length / 2);
-const rightUsers = props.users;
 
+const shuffledUsers = shuffleObjects(props.users);
+const leftUsers = shuffledUsers.splice(0, shuffledUsers.length / 2);
+const rightUsers = shuffledUsers;
 
 </script>
 
