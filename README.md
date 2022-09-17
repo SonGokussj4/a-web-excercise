@@ -2,17 +2,12 @@
 
 This is a web exercise
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
 ## Project Setup
 
 * Clone the repository
 * Run `npm install`
-* Run `npm run dev`
-* Run `npm run build`
-* Open `http://localhost:3000` in your browser
+* Run `npm run dev` | `npm run build`
+* Open `http://localhost:5173` in your browser
 
 ## Excercise Assignment
 
@@ -37,19 +32,6 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 >
 > (zadani neni zamerne plne vyspecifikovane...)"
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
-
-
 ## Type Support for `.vue` Imports in TS
 
 TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
@@ -60,3 +42,7 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
     1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
     2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
