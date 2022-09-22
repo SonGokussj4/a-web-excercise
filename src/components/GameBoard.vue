@@ -31,6 +31,7 @@ function hadleUserClicked(e: Event, user: IUser) {
     // Select or Unselect clicked user
     target.classList.toggle("active");
     const selectedPlayerId = target?.getAttribute("data-id");
+    toggleDisabledPlayers(user);
 
     // Unselect previously selected players and fill/empty the 'selected user' variables
     if (user.team == "left") {
@@ -57,31 +58,32 @@ function hadleUserClicked(e: Event, user: IUser) {
 }
 
 function hadleUserHovered(e: Event, user: IUser) {
-    // Typescript purpose, else there is an TS error
-    const target = e.target as Element;
-
     console.log("[ DEBUG ] hovering over user:", user)
-    const scores = JSON.parse(localStorage.getItem("scores"));
-    if (!scores) {
-        return
-    }
+    toggleDisabledPlayers(user);
+}
 
+function toggleDisabledPlayers(user: IUser) {
     // Get IDs of users which are disabled (non-playlable) for this user
-    // const disabledUsersIds = scores[user.id]?.disabledUsers.filter((player: IUser) => user.team == 'left' ? player.team == 'right': player.team == 'left')
-    const disabledUsersIds = scores[user.id]?.disabledUsers
+    const disabledUsersIds = getDisabledUsersIds(user);
     console.log("[ DEBUG ] disabledUsersIds", disabledUsersIds)
 
+    // Get all players and toggle "disabled" class if they are in the disabledUsersIds array
     if (disabledUsersIds) {
         disabledUsersIds.forEach((id: number) => {
             const oposingTeam = user.team == 'left' ? 'right' : 'left'
             const disabledUser = document.querySelector(`img.player-${oposingTeam}[data-id="${id}"]`);
-            console.log("[ DEBUG ] disabledUser", disabledUser)
-            // disabledUser?.classList.add("disabled");
             disabledUser?.classList.toggle("disabled")
         })
     }
+}
 
-
+function getDisabledUsersIds(user: IUser) {
+    const scores = JSON.parse(localStorage.getItem("scores"));
+    if (!scores) {
+        return
+    }
+    const disabledUsersIds = scores[user.id]?.disabledUsers
+    return disabledUsersIds
 }
 
 function hadlePlayClicked(e: Event) {
