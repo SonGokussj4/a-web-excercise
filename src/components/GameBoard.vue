@@ -25,32 +25,29 @@ leftUsers.forEach((user) => { user.team = "left"; });
 rightUsers.forEach((user) => { user.team = "right"; });
 
 function hadleUserClicked(e: Event, user: IUser) {
-    const target = e.target as Element;  // Typescript purpose, else there is an TS error
+    // Typescript purpose, else there is an TS error
+    const target = e.target as Element;
 
+    // Select or Unselect clicked user
+    target.classList.toggle("active");
+    const selectedPlayerId = target?.getAttribute("data-id");
+
+    // Unselect previously selected players and fill/empty the 'selected user' variables
     if (user.team == "left") {
-        // Get all .player-left and remove "active" class
-        const leftPlayers = document.querySelectorAll("img.player-left")
-        leftPlayers.forEach((player) => { player.classList.remove("active") })
-        // TODO: Make it so that user can be "unselected"
-        // TODO: Don't remove hand from selected player
-        // target.classList.contains("active") ? selectedLeftUser.value = null : selectedLeftUser.value = user
-        selectedLeftUser.value = user
+        // Get all but selected left players and remove "active" class
+        const leftPlayers = document.querySelectorAll(`img.player-left:not([data-id="${selectedPlayerId}"])`);
+        leftPlayers.forEach((player) => { player.classList.remove("active"); });
+        selectedLeftUser.value = target.classList.contains("active") ? user : null;
 
     } else {
-        // The same for right part
-        const rightPlayers = document.querySelectorAll("img.player-right")
-        rightPlayers.forEach((player) => { player.classList.remove("active") })
-        // TODO: Make it so that user can be "unselected"
-        // TODO: Don't remove hand from selected player
-        // target.classList.contains("active") ? selectedRightUser.value = null : selectedRightUser.value = user
-        selectedRightUser.value = user
+        // Get all but selected right players and remove "active" class
+        const rightPlayers = document.querySelectorAll(`img.player-right:not([data-id="${selectedPlayerId}"])`);
+        rightPlayers.forEach((player) => { player.classList.remove("active"); });
+        selectedRightUser.value = target.classList.contains("active") ? user : null;
     }
 
-    // Because everything on left or right site is now inactive, activate the tearget
-    target.classList.toggle("active");
-
+    // Check if both players are selected, if so, show the "Play" button, else hide it
     if (selectedLeftUser.value && selectedRightUser.value) {
-        console.log("Both players selected");
         const playButton = document.querySelector(".play-button");
         playButton?.classList.add("active");
     } else {
@@ -60,7 +57,8 @@ function hadleUserClicked(e: Event, user: IUser) {
 }
 
 function hadleUserHovered(e: Event, user: IUser) {
-    const target = e.target as Element;  // Typescript purpose, else there is an TS error
+    // Typescript purpose, else there is an TS error
+    const target = e.target as Element;
 
     console.log("[ DEBUG ] hovering over user:", user)
     const scores = JSON.parse(localStorage.getItem("scores"));
@@ -284,6 +282,7 @@ div.player span {
 div.player-left span {
     background: rgb(139, 2, 37);
 }
+
 div.player-right span {
     background: rgb(0, 60, 128);
 }
