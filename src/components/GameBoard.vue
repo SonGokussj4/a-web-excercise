@@ -26,7 +26,7 @@ rightUsers.forEach((user) => { user.team = "right"; });
 
 function hadleUserClicked(e: Event, user: IUser) {
     // Typescript purpose, else there is an TS error
-    const target = e.target as Element;
+    const target = e.target as HTMLElement;
 
     const disabledClass = target.classList.contains("disabled");
     if (disabledClass) {
@@ -34,7 +34,7 @@ function hadleUserClicked(e: Event, user: IUser) {
         return;
     }
 
-    // Select or Unselect clicked user
+    // Make clicked user acitve/non-active
     target.classList.toggle("active");
     const selectedPlayerId = target?.getAttribute("data-id");
     toggleDisabledPlayers(user);
@@ -189,6 +189,10 @@ function hadlePlayClicked(e: Event) {
     if (leftPlayerWins) {
         scores[pair].leftPlayer.score = scores[pair].leftPlayer.score + 1
 
+        // Add "win" class to the winning player (for a short time)
+        const leftPlayerHtmlElement = document.querySelector(`img.player-left[data-id="${leftPlayer.id}"]`);
+        leftPlayerHtmlElement ? addTemporaryClass(leftPlayerHtmlElement, "player-win", 500) : null;
+
         if (scores[pair].leftPlayer.score == 3) {
             scores[pair].leftPlayer.win = true
             scores[pair].canPlayAgain = false
@@ -202,6 +206,11 @@ function hadlePlayClicked(e: Event) {
         }
     } else if (rightPlayerWins) {
         scores[pair].rightPlayer.score = scores[pair].rightPlayer.score + 1
+
+        // Add "win" class to the winning player (for a short time)
+        const rightPlayerHtmlElement = document.querySelector(`img.player-right[data-id="${rightPlayer.id}"]`);
+        rightPlayerHtmlElement ? addTemporaryClass(rightPlayerHtmlElement, "player-win", 500) : null;
+
         if (scores[pair].rightPlayer.score == 3) {
             scores[pair].rightPlayer.win = true
             scores[pair].canPlayAgain = false
@@ -216,6 +225,14 @@ function hadlePlayClicked(e: Event) {
     }
     localStorage.setItem("scores", JSON.stringify(scores));
 }
+
+function addTemporaryClass(element: Element, className: string, timeout: number) {
+    element.classList.add(className);
+    setTimeout(() => {
+        element.classList.remove(className);
+    }, timeout);
+}
+
 </script>
 
 <template>
@@ -275,6 +292,10 @@ function hadlePlayClicked(e: Event) {
     margin-top: 10px;
     width: 100px;
     height: 100px;
+}
+
+.player-win {
+    border: 30px solid rgb(235, 219, 8);
 }
 
 img.player {
