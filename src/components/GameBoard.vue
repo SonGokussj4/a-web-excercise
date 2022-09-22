@@ -28,6 +28,12 @@ function hadleUserClicked(e: Event, user: IUser) {
     // Typescript purpose, else there is an TS error
     const target = e.target as Element;
 
+    const disabledClass = target.classList.contains("disabled");
+    if (disabledClass) {
+        alert("You've already played with this user!");
+        return;
+    }
+
     // Select or Unselect clicked user
     target.classList.toggle("active");
     const selectedPlayerId = target?.getAttribute("data-id");
